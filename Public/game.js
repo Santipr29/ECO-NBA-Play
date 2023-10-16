@@ -25,8 +25,13 @@ function draw() {
 
 class Ball{
     constructor(x,y){
-        this.pos = createVector(x,y)
-        this.vel = createVector(0,0)
+        this.startPos = createVector(x,y);
+        this.pos = this.startPos.copy();
+
+        //this.pos = createVector(x,y);
+        this.vel = createVector(0,0);
+        this.acc = createVector(0,0);
+        this.force = 0;
     }
 
     show(){
@@ -34,13 +39,31 @@ class Ball{
     }
 
     update(){
+        const gravity = createVector(0, 0.2);
+        this.acc.add(gravity);
+
+        this.vel.add(this.acc);
         this.pos.add(this.vel);
+
+        this.acc.mult(0);
+
+        if(this.pos.x < 0 || this.pos.x > width || this.pos.y < 0){
+            this.reset();
+        }
+    }
+
+    reset(){
+        this.pos = this.startPos.copy();
+        this.vel.mult(0);
+        this.acc.mult(0);
     }
 
     launch(direction){
         const dir = direction.copy().normalize();
 
         this.vel = dir.mult(direction.mag()*0.1)
+
+        this.acc.mult(0)
     }
 }
 
