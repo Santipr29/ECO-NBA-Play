@@ -41,9 +41,10 @@ function draw() {
   image(post, basketX - 80, 50, 250, 700);
   image(basket, basketX, 180, 100, 100);
 
-  // Ajusta las coordenadas del área de juego en el eje X
-  let minX = 200; // Cambia esto según tus necesidades
-  let maxX = 300; // Cambia esto según tus necesidades
+  let minX = basketX; 
+  let maxX = basketX + 100; 
+  let minY = 150;
+  let maxY = 150;
 
   textSize(24);
   fill(0);
@@ -51,7 +52,7 @@ function draw() {
 
   ball.show();
   ball.update();
-  checkBasketEntry(minX, maxX);
+  checkBasketEntry(minX, maxX, minY, maxY);
 }
 
 class Ball {
@@ -76,7 +77,7 @@ class Ball {
 
     this.acc.mult(0);
 
-    if (this.pos.x < 0 || this.pos.x > width || this.pos.y < 0 || this.pos.y > width) {
+    if (this.pos.x < -400 || this.pos.x > width + 400 || this.pos.y < -250 || this.pos.y > width) {
       this.reset();
     }
 
@@ -122,16 +123,18 @@ function mouseReleased() {
   }
 }
 
-function checkBasketEntry(minX, maxX) {
-  if (!enteredBasket && ballFalling) {
-    if (
-      ball.pos.x + ballSize / 2 > minX &&
-      ball.pos.x - ballSize / 2 < maxX &&
-      ball.pos.y + ballSize / 2 > 180 &&
-      ball.pos.y - ballSize / 2 < 280
-    ) {
-      score++;
-      enteredBasket = true;
+function checkBasketEntry(minX, maxX, minY, maxY) {
+    if (!enteredBasket && ballFalling) {
+      if (
+        ball.pos.x + ballSize / 2 > minX &&
+        ball.pos.x - ballSize / 2 < maxX &&
+        ball.pos.y + ballSize / 2 > minY &&       
+        ball.pos.y - ballSize / 2 < maxY          
+      ) {
+        score++;
+        enteredBasket = true;
+      }
     }
   }
-}
+ 
+  
