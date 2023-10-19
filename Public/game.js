@@ -1,4 +1,4 @@
-let ballImg, post, basket;
+let ballImg, post, basket,basketTop, back;
 let startDrag;
 let score = 0;
 let ballFalling = false;
@@ -10,6 +10,8 @@ function preload() {
   ballImg = loadImage('img/balon.png');
   post = loadImage('img/palo.png');
   basket = loadImage('img/aro.png');
+  basketTop= loadImage('img/arotop.png');
+  back= loadImage('img/back.png');
 }
 
 function setup() {
@@ -37,12 +39,12 @@ function draw() {
   if(basketX <= 0 || basketX >= width - 100){
     basketDir *= -1;
   }
-
+  image(back, 0, 0);
   image(post, basketX - 80, 50, 250, 700);
   image(basket, basketX, 180, 100, 100);
 
   let minX = basketX; 
-  let maxX = basketX + 100; 
+  let maxX = basketX + 50; 
   let minY = 150;
   let maxY = 150;
 
@@ -53,6 +55,10 @@ function draw() {
   ball.show();
   ball.update();
   checkBasketEntry(minX, maxX, minY, maxY);
+  
+  if(enteredBasket){
+    image(basketTop, basketX, 180, 100, 100);
+  }
 }
 
 class Ball {
@@ -103,6 +109,26 @@ class Ball {
 
     this.acc.mult(0);
   }
+
+  show() {
+    push(); // Guarda la configuración de la matriz de transformación actual
+    translate(this.pos.x, this.pos.y);
+  
+    let scaleFactor = 1.0; // Factor de escala inicial
+  
+    if (ballFalling) {
+      scaleFactor = map(this.vel.y, 0, -9, 1.0, 1.0 ); // Disminuye la escala cuando la pelota baja
+    } else {
+      scaleFactor = map(this.vel.y, 0, 9, 1.0, 0.5); // Aumenta la escala cuando la pelota sube
+    }
+  
+    scale(scaleFactor); // Aplica la escala
+  
+    image(ballImg, 0, 0, ballSize, ballSize);
+  
+    pop(); // Restaura la matriz de transformación
+  }
+  
 }
 
 function mousePressed() {
