@@ -17,11 +17,29 @@ function setup() {
   ball = new Ball(230, 520);
 }
 
+let basketX = 230;
+let basketSpeed = 0;
+let basketDir = 1;
+
 function draw() {
   background(220);
 
-  image(post, 150, 50, 250, 700);
-  image(basket, 230, 180, 100, 100);
+  if(score >= 10 && basketSpeed == 0){
+    basketSpeed = 2;
+  }else if(score >= 20 && basketSpeed == 2){
+    basketSpeed = 4;
+  }else if(score >= 35 && basketSpeed == 4){
+    basketSpeed = 6;
+  }
+
+  basketX += basketSpeed * basketDir;
+
+  if(basketX <= 0 || basketX >= width - 100){
+    basketDir *= -1;
+  }
+
+  image(post, basketX - 80, 50, 250, 700);
+  image(basket, basketX, 180, 100, 100);
 
   // Ajusta las coordenadas del área de juego en el eje X
   let minX = 200; // Cambia esto según tus necesidades
@@ -58,7 +76,7 @@ class Ball {
 
     this.acc.mult(0);
 
-    if (this.pos.x < 0 || this.pos.x > width || this.pos.y < 0) {
+    if (this.pos.x < 0 || this.pos.x > width || this.pos.y < 0 || this.pos.y > width) {
       this.reset();
     }
 
