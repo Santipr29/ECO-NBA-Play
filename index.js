@@ -6,7 +6,7 @@ const app = express ();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-app.use(express.static(__dirname +  '/public'));
+app.use(express.static(__dirname +  '/public-mupi'));
 
 server.listen(5500,() => {
     console.log ('escuchandingg');
