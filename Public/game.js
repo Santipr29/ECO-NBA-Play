@@ -71,8 +71,23 @@ class Ball {
   }
 
   show() {
-    image(ballImg, this.pos.x, this.pos.y, ballSize, ballSize);
-  }
+      push(); 
+      translate(this.pos.x, this.pos.y);
+    
+      let scaleFactor = 1.0; 
+    
+      if (ballFalling) {
+        scaleFactor = map(this.vel.y, 0, -9, 1.0, 1.0 ); 
+      } else {
+        scaleFactor = map(this.vel.y, 0, 9, 1.0, 0.5); 
+      }
+    
+      scale(scaleFactor); 
+    
+      image(ballImg, 0, 0, ballSize, ballSize);
+    
+      pop(); 
+    }
 
   update() {
     const gravity = createVector(0, 0.2);
@@ -108,25 +123,6 @@ class Ball {
     this.vel = dir.mult(direction.mag() * 0.1);
 
     this.acc.mult(0);
-  }
-
-  show() {
-    push(); // Guarda la configuración de la matriz de transformación actual
-    translate(this.pos.x, this.pos.y);
-  
-    let scaleFactor = 1.0; // Factor de escala inicial
-  
-    if (ballFalling) {
-      scaleFactor = map(this.vel.y, 0, -9, 1.0, 1.0 ); // Disminuye la escala cuando la pelota baja
-    } else {
-      scaleFactor = map(this.vel.y, 0, 9, 1.0, 0.5); // Aumenta la escala cuando la pelota sube
-    }
-  
-    scale(scaleFactor); // Aplica la escala
-  
-    image(ballImg, 0, 0, ballSize, ballSize);
-  
-    pop(); // Restaura la matriz de transformación
   }
   
 }
