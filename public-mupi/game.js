@@ -6,6 +6,11 @@ let enteredBasket = false;
 let ballSize = 50; 
 let prevPosY = 0;
 
+const topAreaY = 180;
+const bottomAreaY = 180;
+
+let socket;
+
 function preload() {
   ballImg = loadImage('img/balon.png');
   post = loadImage('img/palo.png');
@@ -17,6 +22,13 @@ function preload() {
 function setup() {
   createCanvas(600, 658);
   ball = new Ball(230, 520);
+
+  // socket = io.connect('http://localhost:5500/game');
+
+  // socket.on('ballLaunched', (data) => { 
+  //     const vector = createVector(data.x, data.y);
+  //     ball.launch(vector);
+  // });
 }
 
 let basketX = 230;
@@ -45,8 +57,8 @@ function draw() {
 
   let minX = basketX; 
   let maxX = basketX + 50; 
-  let minY = 150;
-  let maxY = 150;
+  let minY = topAreaY;
+  let maxY = bottomAreaY;
 
   textSize(24);
   fill(0);
@@ -54,9 +66,10 @@ function draw() {
 
   ball.show();
   ball.update();
-  checkBasketEntry(minX, maxX, minY, maxY);
-  
-  if(enteredBasket){
+
+  markPoint(minX, maxX, minY, maxY);  
+  handleBasketCollision(minX, maxX, minY, maxY); 
+  if (enteredBasket) {
     image(basketTop, basketX, 180, 100, 100);
   }
 }
@@ -145,18 +158,36 @@ function mouseReleased() {
   }
 }
 
-function checkBasketEntry(minX, maxX, minY, maxY) {
-    if (!enteredBasket && ballFalling) {
-      if (
-        ball.pos.x + ballSize / 2 > minX &&
-        ball.pos.x - ballSize / 2 < maxX &&
-        ball.pos.y + ballSize / 2 > minY &&       
-        ball.pos.y - ballSize / 2 < maxY          
-      ) {
-        score++;
-        enteredBasket = true;
+function handleBasketCollision(minX, maxX, minY, maxY) {
+  if (ballFalling) {
+    if (
+      (ball.pos.x - ballSize / 2 <= maxX && ball.pos.x + ballSize / 2 >= minX) &&
+      (ball.pos.y + ballSize / 2 >= minY)
+    ) {
+      const middleX = (minX + maxX) / 2;
+      if (ball.pos.x < middleX - ballSize / 2 || ball.pos.x > middleX + ballSize / 2) {
+        ball.vel.y *= -1;  
       }
     }
   }
- 
+}
+
+function markPoint(minX, maxX, minY, maxY) {
+  if (!enteredBasket && ballFalling) {
+    const middleX = (minX + maxX) / 2;
+
+    if (
+      ball.pos.x >= middleX - ballSize / 2 &&
+      ball.pos.x <= middleX + ballSize / 2
+    ) {
+      if (
+        ball.pos.y + ballSize / 2 >= minY &&
+        ball.pos.y - ballSize / 2 <= maxY
+      ) {
+        enteredBasket = true;  
+        score++;  
+      }
+    }
+  }
+}
   

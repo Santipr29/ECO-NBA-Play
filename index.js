@@ -1,13 +1,27 @@
-const express = require('express');
-const http = require('http');
-const socketIO = require('socket.io');
+import express from 'express';
+import { Server } from 'socket.io';
+const PORT = 5500;
 
-const app = express ();
-const server = http.createServer(app);
-const io = socketIO(server);
+const expressApp = express()
+const httpServer = expressApp.listen(PORT, () => {
+    console.table(
+        {
+            'Controller:': 'http://localhost:5500/controller',
+            'Game:': 'http://localhost:5500/game',
+        })
+})
 
-app.use(express.static(__dirname +  '/public-mupi'));
+expressApp.use('/game', express.static('public-mupi'))
+expressApp.use('/controller', express.static('public-control'))
+expressApp.use(express.json())
 
-server.listen(5500,() => {
-    console.log ('escuchandingg');
+const io = new Server(httpServer, {path: '/real-time'});
+
+io.on('connection', (socket) => {
+    console.log('Usuario conectado');
+
+    socket.on('launchBall', (data) => {
+        io.emit('ballLaunched', data);
+    });
 });
+
