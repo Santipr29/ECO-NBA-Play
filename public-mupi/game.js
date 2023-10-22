@@ -7,6 +7,11 @@ let ballLaunched = false;
 let ballSize = 50; 
 let prevPosY = 0;
 
+let timeLeft = 30; // Tiempo en segundos.
+let startTime = 5; // Tiempo en segundos antes de que comience el juego.
+let gameStarted = false;
+let isGameOver = false;
+
 const topAreaY = 180;
 const bottomAreaY = 180;
 
@@ -23,6 +28,24 @@ function preload() {
 function setup() {
   createCanvas(600, 658);
   ball = new Ball(251, 620);
+
+  let startInterval = setInterval(function() {
+    startTime--;
+    if (startTime <= 0) {
+        clearInterval(startInterval);
+        gameStarted = true;
+    }
+  }, 1000);
+
+  setInterval(function() {
+    if(gameStarted) {
+        timeLeft--;
+        if (timeLeft <= 0) {
+            gameOver();
+        }
+    }
+  }, 1000); // Se ejecuta cada segundo.
+
 
   socket.on('ballLaunched', (data) => {
     console.log(data);
@@ -62,9 +85,29 @@ function draw() {
   let minY = topAreaY;
   let maxY = bottomAreaY;
 
+  if (!gameStarted && timeLeft > 0) {
+    fill(255, 0, 0);
+    textSize(48);
+    text("Comenzando en: " + startTime, width / 2 - 150, height / 2);
+  }
+
   textSize(24);
   fill(0);
   text("Puntos: " + score, 10, 30);
+
+  text("Tiempo: " + timeLeft, width - 120, 30);
+
+  if (isGameOver) {
+    fill(0, 0, 0, 150); 
+    rect(0, 0, width, height);
+
+    fill(255, 255, 255);
+    textAlign(CENTER, CENTER);
+    textSize(32);
+    text("Tu puntaje fue: " + score, width / 2, height / 2 + 20);
+
+    textAlign(LEFT, BASELINE);
+}
 
   if (ballLaunched) {
     ball.show();
@@ -144,6 +187,11 @@ class Ball {
     this.acc.mult(0);
   }
   
+}
+
+function gameOver() {
+  gameStarted = false;
+  isGameOver = true;
 }
 
 function handleBasketCollision(minX, maxX, minY, maxY) {
