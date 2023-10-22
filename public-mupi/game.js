@@ -1,5 +1,5 @@
 let ballImg, post, basket,basketTop, back; //Cargar imagenes
-let score = 35;
+let score = 0;
 
 //Estados
 let ballFalling = false;
@@ -26,7 +26,7 @@ const socket = io.connect('http://localhost:5500', {path: '/real-time'});
 
 //Probar las imagenes
 function preload() {
-  ballImg = loadImage('img/balon2.png');
+  ballImg = loadImage('img/balon.png');
   post = loadImage('img/palo.png');
   basket = loadImage('img/aro.png');
   basketTop= loadImage('img/arotop.png');
