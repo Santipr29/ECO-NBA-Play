@@ -3,13 +3,14 @@ let startDrag;
 let score = 0;
 let ballFalling = false;
 let enteredBasket = false;
+let ballLaunched = false;
 let ballSize = 50; 
 let prevPosY = 0;
 
 const topAreaY = 180;
 const bottomAreaY = 180;
 
-let socket;
+const socket = io.connect('http://localhost:5500', {path: '/real-time'});
 
 function preload() {
   ballImg = loadImage('img/balon.png');
@@ -21,14 +22,15 @@ function preload() {
 
 function setup() {
   createCanvas(600, 658);
-  ball = new Ball(230, 520);
+  ball = new Ball(251, 620);
 
-  // socket = io.connect('http://localhost:5500/game');
-
-  // socket.on('ballLaunched', (data) => { 
-  //     const vector = createVector(data.x, data.y);
-  //     ball.launch(vector);
-  // });
+  socket.on('ballLaunched', (data) => {
+    console.log(data);
+    ball.pos = createVector(width / 2, height);  
+    const vector = createVector(data.x, data.y);
+    ball.launch(vector);
+    ballLaunched = true;  
+});
 }
 
 let basketX = 230;
@@ -64,8 +66,10 @@ function draw() {
   fill(0);
   text("Puntos: " + score, 10, 30);
 
-  ball.show();
-  ball.update();
+  if (ballLaunched) {
+    ball.show();
+    ball.update();
+  }
 
   markPoint(minX, maxX, minY, maxY);  
   handleBasketCollision(minX, maxX, minY, maxY); 
@@ -111,10 +115,6 @@ class Ball {
 
     this.acc.mult(0);
 
-    if (this.pos.x < -400 || this.pos.x > width + 400 || this.pos.y < -250 || this.pos.y > width) {
-      this.reset();
-    }
-
     if (this.pos.y > prevPosY) {
       ballFalling = true;
     } else {
@@ -122,6 +122,12 @@ class Ball {
     }
 
     prevPosY = this.pos.y;
+
+    if (this.pos.x < -400 || this.pos.x > width + 400 || this.pos.y < -250 || this.pos.y > width + 300) {
+      this.reset();
+      ballLaunched = false;
+      socket.emit('ballDropped'); 
+    }
   }
 
   reset() {
@@ -138,24 +144,6 @@ class Ball {
     this.acc.mult(0);
   }
   
-}
-
-function mousePressed() {
-  startDrag = createVector(mouseX, mouseY);
-}
-
-function mouseReleased() {
-  if (
-    ball.pos.x > 150 &&
-    ball.pos.x < 400 &&
-    ball.pos.y > 50 &&
-    ball.pos.y < 750
-  ) {
-    const endDrag = createVector(mouseX, mouseY);
-    const dragVector = p5.Vector.sub(endDrag, startDrag);
-    ball.launch(dragVector);
-    enteredBasket = false;
-  }
 }
 
 function handleBasketCollision(minX, maxX, minY, maxY) {

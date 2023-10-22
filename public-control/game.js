@@ -1,12 +1,20 @@
-let ball;
+let ballImg;
 let startDrag;
-let socket;
+let ballLaunched = false;
+const socket = io.connect('http://localhost:5500', {path: '/real-time'});
+
+function preload() {
+    ballImg = loadImage('img/balon.png');
+}
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-    ball = new Ball(width/2, height/2);
+    createCanvas(390, 844);
+    ball = new Ball(138, 380);
 
-    socket = io.connect('http://localhost:5500/controller');
+    socket.on('ballDropped', () => {
+        ball.reset();
+        ballLaunched = false;
+    });
 }
 
 function draw() {
@@ -15,18 +23,51 @@ function draw() {
     ball.update();
 }
 
+class Ball {
+    constructor(x, y) {
+      this.startPos = createVector(x, y);
+      this.pos = this.startPos.copy();
+      this.vel = createVector(0, 0);
+      this.acc = createVector(0, 0);
+    }
+    
+    show() {
+        image(ballImg, this.pos.x, this.pos.y, 120, 120); 
+    }
+  
+    update() {
+  
+      this.vel.add(this.acc);
+      this.pos.add(this.vel);
+  
+      this.acc.mult(0);
+
+      if (this.pos.x < 0 || this.pos.x > width) {
+        this.reset();
+        ballLaunched = false;
+    }
+    }
+    
+    reset() {
+      this.pos = this.startPos.copy();
+      this.vel.mult(0);
+      this.acc.mult(0);
+    }
+  
+    launch(direction) {
+      const dir = direction.copy().normalize();
+      this.vel = dir.mult(direction.mag() * 0.1);
+      this.acc.mult(0);
+    }
+}
+
 function touchStarted() {
-    startDrag = createVector(touches[0].x, touches[0].y);
-    return false; 
+    startDrag = createVector(mouseX, mouseY);
 }
 
 function touchEnded() {
-    if (touches.length == 0) { 
-        const endDrag = createVector(touches[0].x, touches[0].y);
-        const dragVector = p5.Vector.sub(endDrag, startDrag);
-        ball.launch(dragVector);
-        socket.emit('launchBall', { x: dragVector.x, y: dragVector.y });
-    }
-    return false; 
+    const endDrag = createVector(mouseX, mouseY);
+    const dragVector = p5.Vector.sub(endDrag, startDrag);
+    ball.launch(dragVector);
+    socket.emit('launchBall', { x: dragVector.x, y: dragVector.y });
 }
-

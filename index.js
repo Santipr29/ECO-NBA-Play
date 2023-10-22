@@ -23,5 +23,9 @@ io.on('connection', (socket) => {
     socket.on('launchBall', (data) => {
         io.emit('ballLaunched', data);
     });
+
+    socket.on('ballDropped', () => {
+        io.emit('ballDropped');
+    });
 });
 
