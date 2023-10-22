@@ -1,34 +1,44 @@
-let ballImg, post, basket,basketTop, back;
-let startDrag;
-let score = 0;
+let ballImg, post, basket,basketTop, back; //Cargar imagenes
+let score = 35;
+
+//Estados
 let ballFalling = false;
 let enteredBasket = false;
 let ballLaunched = false;
-let ballSize = 50; 
-let prevPosY = 0;
-
-let timeLeft = 30; // Tiempo en segundos.
-let startTime = 5; // Tiempo en segundos antes de que comience el juego.
 let gameStarted = false;
 let isGameOver = false;
 
+let ballSize = 50; 
+let prevPosY = 0;
 const topAreaY = 180;
 const bottomAreaY = 180;
 
+//Niveles
+let basketX = 230;
+let basketSpeed = 0;
+let basketDir = 1;
+
+//Contadores
+let timeLeft = 60; // Tiempo en segundos.
+let startTime = 5; // Tiempo en segundos antes de que comience el juego
+
 const socket = io.connect('http://localhost:5500', {path: '/real-time'});
 
+//Probar las imagenes
 function preload() {
-  ballImg = loadImage('img/balon.png');
+  ballImg = loadImage('img/balon2.png');
   post = loadImage('img/palo.png');
   basket = loadImage('img/aro.png');
   basketTop= loadImage('img/arotop.png');
   back= loadImage('img/back.png');
 }
 
+//Inicializador
 function setup() {
   createCanvas(600, 658);
   ball = new Ball(251, 620);
 
+  //Inicio del juego
   let startInterval = setInterval(function() {
     startTime--;
     if (startTime <= 0) {
@@ -37,6 +47,7 @@ function setup() {
     }
   }, 1000);
 
+  //Contador Juego
   setInterval(function() {
     if(gameStarted) {
         timeLeft--;
@@ -44,11 +55,10 @@ function setup() {
             gameOver();
         }
     }
-  }, 1000); // Se ejecuta cada segundo.
+  }, 1000);
 
-
+  //Lanzamiento de la pelota
   socket.on('ballLaunched', (data) => {
-    console.log(data);
     ball.pos = createVector(width / 2, height);  
     const vector = createVector(data.x, data.y);
     ball.launch(vector);
@@ -56,13 +66,12 @@ function setup() {
 });
 }
 
-let basketX = 230;
-let basketSpeed = 0;
-let basketDir = 1;
 
+//Pintar cosas en el canva
 function draw() {
   background(220);
 
+  //Pintar los niveles
   if(score >= 10 && basketSpeed == 0){
     basketSpeed = 2;
   }else if(score >= 20 && basketSpeed == 2){
@@ -73,30 +82,61 @@ function draw() {
 
   basketX += basketSpeed * basketDir;
 
+  //Rebote del nivel
   if(basketX <= 0 || basketX >= width - 100){
     basketDir *= -1;
   }
+
+  //Pintar de inicio
   image(back, 0, 0);
   image(post, basketX - 80, 50, 250, 700);
   image(basket, basketX, 180, 100, 100);
 
+  //Areas del aro para contar los puntos
   let minX = basketX; 
   let maxX = basketX + 50; 
   let minY = topAreaY;
   let maxY = bottomAreaY;
 
+  //Pintar el contador de inicio de juego
   if (!gameStarted && timeLeft > 0) {
-    fill(255, 0, 0);
-    textSize(48);
-    text("Comenzando en: " + startTime, width / 2 - 150, height / 2);
+    fill(0, 0, 0, 150); 
+    rect(0, 0, width, height);
+
+    fill(255, 255, 255);
+    textAlign(CENTER, CENTER);
+    textSize(32);
+    text("Comenzando en: " + startTime, width / 2, height / 2 + 20);
+
+    textAlign(LEFT, BASELINE);
   }
 
+  //Puntaje
   textSize(24);
   fill(0);
   text("Puntos: " + score, 10, 30);
 
+  //Contador
   text("Tiempo: " + timeLeft, width - 120, 30);
 
+  //Pintar la pelota con sus movimientos
+  if (ballLaunched) {
+    ball.show();
+    ball.update();
+  }
+
+  //Contar Puntos
+  markPoint(minX, maxX, minY, maxY);  
+
+  //Contar rebotes del balon con el aro
+  handleBasketCollision(minX, maxX, minY, maxY); 
+
+  //Efecto Visual del balon entrando al aro
+  if (enteredBasket) {
+    image(basketTop, basketX, 180, 100, 100);
+  }
+
+  //Pintar puntuacion final
   if (isGameOver) {
     fill(0, 0, 0, 150); 
     rect(0, 0, width, height);
@@ -108,20 +148,12 @@ function draw() {
 
     textAlign(LEFT, BASELINE);
 }
-
-  if (ballLaunched) {
-    ball.show();
-    ball.update();
-  }
-
-  markPoint(minX, maxX, minY, maxY);  
-  handleBasketCollision(minX, maxX, minY, maxY); 
-  if (enteredBasket) {
-    image(basketTop, basketX, 180, 100, 100);
-  }
 }
 
+//Objeto del balon
 class Ball {
+
+  //Caracteristicas iniciales del balon
   constructor(x, y) {
     this.startPos = createVector(x, y);
     this.pos = this.startPos.copy();
@@ -130,12 +162,14 @@ class Ball {
     this.force = 0;
   }
 
+  //Mostrar el balon
   show() {
       push(); 
       translate(this.pos.x, this.pos.y);
-    
+
+      //Escalar las dimensiones del balon en subida y bajada
       let scaleFactor = 1.0; 
-    
+
       if (ballFalling) {
         scaleFactor = map(this.vel.y, 0, -9, 1.0, 1.0 ); 
       } else {
@@ -149,6 +183,7 @@ class Ball {
       pop(); 
     }
 
+  //Actualizar las caracteristicas del balon
   update() {
     const gravity = createVector(0, 0.2);
     this.acc.add(gravity);
@@ -158,6 +193,7 @@ class Ball {
 
     this.acc.mult(0);
 
+    //Confirmar si el balon esta subiendo o bajando
     if (this.pos.y > prevPosY) {
       ballFalling = true;
     } else {
@@ -166,6 +202,7 @@ class Ball {
 
     prevPosY = this.pos.y;
 
+    //Resetear el balon en el celular
     if (this.pos.x < -400 || this.pos.x > width + 400 || this.pos.y < -250 || this.pos.y > width + 300) {
       this.reset();
       ballLaunched = false;
@@ -173,12 +210,14 @@ class Ball {
     }
   }
 
+  //Volver el balon a sus propiedades originales
   reset() {
     this.pos = this.startPos.copy();
     this.vel.mult(0);
     this.acc.mult(0);
   }
 
+  //Vector de lanzamiento del balon
   launch(direction) {
     const dir = direction.copy().normalize();
 
@@ -189,11 +228,13 @@ class Ball {
   
 }
 
+//Finalizar el juego
 function gameOver() {
   gameStarted = false;
   isGameOver = true;
 }
 
+//Rebotes en el aro
 function handleBasketCollision(minX, maxX, minY, maxY) {
   if (ballFalling) {
     if (
@@ -208,6 +249,8 @@ function handleBasketCollision(minX, maxX, minY, maxY) {
   }
 }
 
+
+//Contar los puntos
 function markPoint(minX, maxX, minY, maxY) {
   if (!enteredBasket && ballFalling) {
     const middleX = (minX + maxX) / 2;
