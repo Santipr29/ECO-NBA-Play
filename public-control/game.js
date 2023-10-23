@@ -1,4 +1,4 @@
-let ballImg; //Cargar imagen
+let ballImg, back; //Cargar imagen
 let startDrag;//Punto inicial del arrastre
 let ballLaunched = false;
 
@@ -8,6 +8,7 @@ const socket = io.connect('http://localhost:5500', {path: '/real-time'});
 //Probar las imagenes
 function preload() {
     ballImg = loadImage('img/balon.png');
+    back= loadImage('img/celular.jpeg');
 }
 
 //Inicializador
@@ -25,6 +26,7 @@ function setup() {
 //Pintar cosas en el canva
 function draw() {
     background(220);
+    image(back, 0, 0);
     ball.show();
     ball.update();
 }
