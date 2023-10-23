@@ -14,7 +14,7 @@ const topAreaY = 180;
 const bottomAreaY = 180;
 
 //Niveles
-let basketX = 230;
+let basketX = 250;
 let basketSpeed = 0;
 let basketDir = 1;
 
