@@ -1,4 +1,4 @@
-export class MupiMaincreen {
+export class MupiMainScreen {
     constructor(p5) {
         this.p5 = p5;
     
