@@ -197,6 +197,8 @@ setup() {
       ) {
         this.enteredBasket = true;
         this.score++;
+
+        this.socket.emit('mensaje', this.enteredBasket);
       }
     }
   }

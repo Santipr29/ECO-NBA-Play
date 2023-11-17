@@ -2,6 +2,8 @@
 import express from 'express';
 import cors from 'cors'
 import { Server } from 'socket.io';
+import { SerialPort } from 'serialport'
+
 
 //Puerto de la aplicacion
 const PORT = 5500;
@@ -21,6 +23,12 @@ const httpServer = expressApp.listen(PORT, () => {
 expressApp.use('/game', express.static('public-mupi'))
 expressApp.use('/controller', express.static('public-control'))
 expressApp.use(express.json())
+
+// const port = new SerialPort({
+//     path:'COM3',
+//     baudRate:9600,
+
+//   });
 
 //Comportamiento del servidor
 const io = new Server(httpServer, {
@@ -44,5 +52,25 @@ io.on('connection', (socket) => {
     socket.on('ballDropped', () => {
         io.emit('ballDropped');
     });
+
+    socket.on('mensaje', (estadoRecibido) => {
+
+        let estadoBoolean = estadoRecibido;
+        console.log('Estado booleano recibido:', estadoRecibido);
+
+        // Convertir el estado booleano a un valor '1' o '0' para controlar el LED en el Arduino
+        const comando = estadoBoolean ? '1' : '0';
+
+        enviarAlArduino(comando); // Enviar el comando al Arduino basado en el estado booleano
+      });
+
+      function enviarAlArduino(comando) {
+        if (port.isOpen) {
+          port.write(comando); // Enviar comando al Arduino a través del puerto serial
+          console.log('Comando enviado al Arduino:', comando);
+        } else {
+          console.log('No se pudo enviar. La conexión serial no está abierta.');
+        }
+      }
 });
 
