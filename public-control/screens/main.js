@@ -1,6 +1,7 @@
 export class CellPhoneMainScreen {
-  constructor(p5) {
+    constructor(p5, changeScreenCallback) {
       this.p5 = p5;
+      this.changeScreen = changeScreenCallback;
   
       this.back;
       this.logo;
@@ -20,10 +21,12 @@ export class CellPhoneMainScreen {
       
       this.logIn.mousePressed(() => {
           console.log('Log In clicked!');
+          this.socket.emit('logIn')
       });
 
       this.signUp.mousePressed(() => {
           console.log('Sign Up clicked!');
+          this.socket.emit('signUp')
       });
     }
 

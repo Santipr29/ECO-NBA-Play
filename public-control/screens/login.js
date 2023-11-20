@@ -1,6 +1,7 @@
 export class CellPhoneLogInScreen {
-    constructor(p5) {
+    constructor(p5, changeScreenCallback) {
         this.p5 = p5;
+        this.changeScreen = changeScreenCallback;
     
         this.back;
         this.logo;

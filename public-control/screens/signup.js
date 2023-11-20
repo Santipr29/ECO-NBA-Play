@@ -1,8 +1,9 @@
-import { signUp } from "../../firebase.js";
+// import "../../firebase.js"
 
 export class CellPhoneSignUpScreen {
-  constructor(p5) {
+    constructor(p5, changeScreenCallback) {
       this.p5 = p5;
+      this.changeScreen = changeScreenCallback;
   
       this.back;
       this.logo;
@@ -43,15 +44,15 @@ export class CellPhoneSignUpScreen {
         const email = this.emailInput.value();
         const password = this.passwordInput.value();
 
-        signUp(email, password)
-          .then((user) => {
-            // Hacer algo después de que el usuario se registra exitosamente
-            console.log('Sign up successful!', user);
-          })
-          .catch((error) => {
-            // Manejar errores durante el registro
-            console.error('Error during sign up:', error);
-          });
+        // signUp(email, password)
+        //   .then((user) => {
+        //     // Hacer algo después de que el usuario se registra exitosamente
+        //     console.log('Sign up successful!', user);
+        //   })
+        //   .catch((error) => {
+        //     // Manejar errores durante el registro
+        //     console.error('Error during sign up:', error);
+        //   });
       });
 
       this.account.mousePressed(() => {
@@ -64,7 +65,6 @@ export class CellPhoneSignUpScreen {
   }
 
   draw() {
-    
       this.p5.background(220);
 
       this.p5.image(this.back, 0, 0);
