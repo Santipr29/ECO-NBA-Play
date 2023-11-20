@@ -24,6 +24,7 @@ export class MupiGameScreen {
     this.basket;
     this.basketTop;
     this.back;
+    this.logof;
 
     this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
 
@@ -33,6 +34,7 @@ export class MupiGameScreen {
     this.basket = this.p5.loadImage('img/aro.png');
     this.basketTop = this.p5.loadImage('img/arotop.png');
     this.back = this.p5.loadImage('img/back.png');
+    this.logof = this.p5.loadImage('img/logofinal.png');
   }
   
 // Inicializador
@@ -109,7 +111,7 @@ setup() {
       this.p5.textAlign(this.p5.CENTER, this.p5.CENTER);
       this.p5.textSize(32);
       this.p5.text(
-        'Comenzando en: ' + this.startTime,
+        'Starting in: ' + this.startTime,
         this.p5.width / 2,
         this.p5.height / 2 + 20
       );
@@ -120,10 +122,10 @@ setup() {
     // Puntaje
     this.p5.textSize(24);
     this.p5.fill(0);
-    this.p5.text('Puntos: ' + this.score, 10, 30);
+    this.p5.text('Points: ' + this.score, 10, 30);
 
     // Contador
-    this.p5.text('Tiempo: ' + this.timeLeft, this.p5.width - 120, 30);
+    this.p5.text('Time: ' + this.timeLeft, this.p5.width - 120, 30);
 
     // Pintar la pelota con sus movimientos
     if (this.ballLaunched) {
@@ -144,20 +146,35 @@ setup() {
 
     // Pintar puntuación final
     if (this.isGameOver) {
+      this.p5.rectMode(this.p5.CORNER)
       this.p5.fill(0, 0, 0, 150);
-      this.p5.rect(0, 0, this.p5.width, this.p5.height);
+      this.p5.rect(0, 0, this.p5.width,this.p5.height);
 
+      
+
+      this.p5.rectMode(this.p5.CENTER);
       this.p5.fill(255, 255, 255);
+      this.p5.rect(300,320,345,282,10)
+      this.p5.image(this.logof,220,200)
+
+
+
+      this.p5.fill(0);
       this.p5.textAlign(this.p5.CENTER, this.p5.CENTER);
       this.p5.text(
-        'Tu puntaje fue: ' + this.score,
+        'Your score was: ' + this.score,
         this.p5.width / 2,
-        this.p5.height / 2 + 20
+        this.p5.height / 2 + 20,
       );
+
+      this.p5.fill (0, 0, 255);
+      this.p5.text('Congratulations',295,400)
 
       this.p5.textAlign(this.p5.LEFT, this.p5.BASELINE);
     }
   }
+
+  
 
   // Finalizar el juego
   gameOver() {
@@ -197,12 +214,20 @@ setup() {
       ) {
         this.enteredBasket = true;
         this.score++;
-
         this.socket.emit('mensaje', this.enteredBasket);
+
+        setTimeout(() => {
+          this.enteredBasket = false;
+          this.socket.emit('mensaje', this.enteredBasket);
+        }, 
+        1000); 
       }
     }
   }
 }
+
+  
+
 
 // Objeto del balón
 class Ball {
