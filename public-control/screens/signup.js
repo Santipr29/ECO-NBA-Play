@@ -85,6 +85,7 @@ export class CellPhoneSignUpScreen {
       this.passwordInput.show();
       this.genderSelect.show();
       this.signUpButton.show();
+      this.account.show()
 
       // Dibujar la línea divisoria
       this.p5.line(20, 790, 370, 790);
