@@ -8,19 +8,19 @@ export class CellPhoneSignUpScreen {
       this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
   
       // Crear campos de entrada y botón usando createInput y createButton
-      this.firstNameInput = p5.createInput().position(24, 340).size(150, 30);
+      this.firstNameInput = p5.createInput().position(20, 340).size(150, 30);
       this.firstNameInput.style('background-color', '#F2F4F8').style('border-radius', '10px').style('border', '2px solid #C1C7CD').style('font-size', '16px').style('color', '#697077').style('font-weight', 'regular');
 
-      this.lastNameInput = p5.createInput().position(215, 340).size(150, 30);
+      this.lastNameInput = p5.createInput().position(213, 340).size(150, 30);
       this.lastNameInput.style('background-color', '#F2F4F8').style('border-radius', '10px').style('border', '2px solid #C1C7CD').style('font-size', '16px').style('color', '#697077').style('font-weight', 'regular');
 
-      this.emailInput = p5.createInput().position(24, 440).size(345, 30).attribute('type', 'email');
+      this.emailInput = p5.createInput().position(20, 440).size(345, 30).attribute('type', 'email');
       this.emailInput.style('background-color', '#F2F4F8').style('border-radius', '10px').style('border', '2px solid #C1C7CD').style('font-size', '16px').style('color', '#697077').style('font-weight', 'regular');
 
-      this.passwordInput = p5.createInput().position(24, 547).size(345, 30).attribute('type', 'password');
+      this.passwordInput = p5.createInput().position(20, 540).size(345, 30).attribute('type', 'password');
       this.passwordInput.style('background-color', '#F2F4F8').style('border-radius', '10px').style('border', '2px solid #C1C7CD').style('font-size', '16px').style('color', '#697077').style('font-weight', 'regular');
 
-      this.genderSelect = p5.createSelect().position(24, 665).size(345, 30);
+      this.genderSelect = p5.createSelect().position(20, 640).size(350, 40);
       this.genderSelect.style('background-color', '#F2F4F8').style('border-radius', '10px').style('border', '2px solid #C1C7CD').style('font-size', '16px').style('color', '#697077').style('font-weight', 'regular');
 
       this.signUpButton = p5.createButton('Sign Up').position(20, 720).size(350, 40);
@@ -51,6 +51,7 @@ export class CellPhoneSignUpScreen {
   }
 
   draw() {
+    
       this.p5.background(220);
 
       this.p5.image(this.back, 0, 0);
@@ -70,11 +71,11 @@ export class CellPhoneSignUpScreen {
       // Subtítulos
       this.p5.textSize(14);
       this.p5.textStyle(this.p5.NORMAL)
-      this.p5.text("First Name", 60, 320);
-      this.p5.text("Last Name", 250, 320);
-      this.p5.text("Email", 45, 420);
-      this.p5.text("Password", 58, 525);
-      this.p5.text("Gender", 50, 640);
+      this.p5.text("First Name", 55, 320);
+      this.p5.text("Last Name", 248, 320);
+      this.p5.text("Email", 38, 420);
+      this.p5.text("Password", 52, 520);
+      this.p5.text("Gender", 45, 620);
 
       this.p5.textSize(16);
 
