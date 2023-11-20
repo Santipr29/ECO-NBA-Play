@@ -5,26 +5,40 @@ import { MupiMainScreen } from './screens/main.js';
 import { MupiScoreScreen } from './screens/scores.js';
 
 const app = (p5) => {
-  // Crear una instancia de la clase MupiGameScreen
-  const mupiGameScreen = new MupiGameScreen(p5);
-  const mupiQRScreen = new MupiQRScreen(p5);
-  const mupiMainScreen = new MupiMainScreen(p5);
-  const mupiScoreScreen = new MupiScoreScreen(p5);
+  let currentScreen = 'qr';
+  let currentScreenInstance;
+  let socket;
+
+  const changeScreen = (screen) => {
+    currentScreen = screen;
+
+    // Crear una nueva instancia de la pantalla actual.
+    if (currentScreen === 'qr') {
+      currentScreenInstance = new MupiQRScreen(p5, changeScreen);
+    } else if (currentScreen === 'main') {
+      currentScreenInstance = new MupiMainScreen(p5, changeScreen);
+    } 
+    // Configurar la pantalla actual.
+    currentScreenInstance.setup();
+  };
 
   // Configuración inicial de p5.js
   p5.setup = () => {
-    //mupiGameScreen.setup();
-    //mupiQRScreen.setup();
-    mupiMainScreen.setup();
-    //mupiScoreScreen.setup();
+    socket = io.connect('http://localhost:5500', { path: '/real-time' });
+    changeScreen('qr');
+
+    socket.on('logIn', () => {
+      changeScreen('main');
+    });
+
+    socket.on('signUp', () => {
+      changeScreen('main');
+    });
   };
 
   // Función de dibujo de p5.js
   p5.draw = () => {
-    //mupiGameScreen.draw();
-    //mupiQRScreen.draw();
-    mupiMainScreen.draw();
-    //mupiScoreScreen.draw();
+    currentScreenInstance.draw();
   };
 };
 
