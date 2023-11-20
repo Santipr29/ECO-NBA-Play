@@ -53,6 +53,28 @@ io.on('connection', (socket) => {
         io.emit('ballDropped');
     });
 
+    //Cambio de pantallas
+    socket.on('signUp', () => {
+      io.emit('signUp');
+    });
+
+    socket.on('logIn', () => {
+      io.emit('logIn');
+    });
+
+    socket.on('letsGame', () => {
+      io.emit('letsGame');
+    });
+
+    socket.on('playersScores', () => {
+      io.emit('playersScores');
+    });
+    
+    socket.on('restart', () => {
+      io.emit('restart');
+    });
+
+    //Arduino LED
     socket.on('mensaje', (estadoRecibido) => {
 
         let estadoBoolean = estadoRecibido;
@@ -62,7 +84,7 @@ io.on('connection', (socket) => {
         const comando = estadoBoolean ? '1' : '0';
 
         enviarAlArduino(comando); // Enviar el comando al Arduino basado en el estado booleano
-      });
+    });
 
       function enviarAlArduino(comando) {
         if (port.isOpen) {
@@ -71,6 +93,10 @@ io.on('connection', (socket) => {
         } else {
           console.log('No se pudo enviar. La conexión serial no está abierta.');
         }
-      }
+      };
+
+    socket.on('disconnect', () => {
+        console.log('Usuario desconectado');
+    });
 });
 
