@@ -6,23 +6,23 @@ import { CellPhoneLogInScreen } from './screens/login.js';
 const app = (p5) => {
   const cellPhoneGameScreen = new CellPhoneGameScreen(p5);
   //const cellPhoneMainScreen = new CellPhoneMainScreen(p5);
-  //const cellPhoneSignUpScreen = new CellPhoneSignUpScreen(p5);
-  const cellPhoneLogInScreen = new CellPhoneLogInScreen(p5);
+  const cellPhoneSignUpScreen = new CellPhoneSignUpScreen(p5);
+  //const cellPhoneLogInScreen = new CellPhoneLogInScreen(p5);
 
   // Configuración inicial de p5.js
   p5.setup = () => {
     //cellPhoneGameScreen.setup();
     //cellPhoneMainScreen.setup();
-    //cellPhoneSignUpScreen.setup();
-    cellPhoneLogInScreen.setup();
+    cellPhoneSignUpScreen.setup();
+    //cellPhoneLogInScreen.setup();
   };
 
   // Función de dibujo de p5.js
   p5.draw = () => {
     //cellPhoneGameScreen.draw();
     //cellPhoneMainScreen.draw();
-    //cellPhoneSignUpScreen.draw();
-    cellPhoneLogInScreen.draw();
+    cellPhoneSignUpScreen.draw();
+    //cellPhoneLogInScreen.draw();
   };
 
   // Manejar eventos táctiles

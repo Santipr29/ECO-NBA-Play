@@ -25,11 +25,11 @@ export class CellPhoneLogInScreen {
         this.logo = this.p5.loadImage('img/logocel.png');
   
         this.logInButton.mousePressed(() => {
-          console.log('Sign up clicked!');
+          console.log('Log In clicked!');
         });
   
         this.account.mousePressed(() => {
-          console.log('Account clicked!');
+          console.log('Sign Up clicked!');
         });
     }
   

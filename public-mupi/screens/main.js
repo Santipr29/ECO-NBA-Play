@@ -29,17 +29,17 @@ export class MupiMainScreen {
       this.p5.rect(0, 0, this.p5.width,this.p5.height);
 
       this.p5.fill(255, 255, 255)
-      this.p5.rect(165,182,271,294,10)
+      this.p5.rect(165,182,271,294,24)
       this.p5.image(this.carga,259,225)
       
       this.p5.textStyle(this.p5.BOLD);
       this.p5.textSize(18);
       this.p5.fill('#D71E54')
-      this.p5.text('Please wait while',231,380);
+      this.p5.text('Please wait while',228,380);
       this.p5.textStyle(this.p5.BOLD);
       this.p5.textSize(18);
       this.p5.fill('#D71E54');
-      this.p5.text('we connect your devices',200,410);
+      this.p5.text('we connect your devices',194,410);
       
 
     }

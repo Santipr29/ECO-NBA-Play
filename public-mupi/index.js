@@ -15,16 +15,16 @@ const app = (p5) => {
   p5.setup = () => {
     //mupiGameScreen.setup();
     //mupiQRScreen.setup();
-    //mupiMainScreen.setup();
-    mupiScoreScreen.setup();
+    mupiMainScreen.setup();
+    //mupiScoreScreen.setup();
   };
 
   // Función de dibujo de p5.js
   p5.draw = () => {
     //mupiGameScreen.draw();
     //mupiQRScreen.draw();
-    //mupiMainScreen.draw();
-    mupiScoreScreen.draw();
+    mupiMainScreen.draw();
+    //mupiScoreScreen.draw();
   };
 };
 
