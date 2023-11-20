@@ -11,30 +11,30 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCI1veTV4rnpeg-Fn220rwVvDh1ihOpf4U",
-    authDomain: "dca-perez.firebaseapp.com",
-    projectId: "dca-perez",
-    storageBucket: "dca-perez.appspot.com",
-    messagingSenderId: "116722604539",
-    appId: "1:116722604539:web:62b7afc51095347ef1535e",
-    measurementId: "G-M6EX5SP9ML"
+  apiKey: "AIzaSyCI1veTV4rnpeg-Fn220rwVvDh1ihOpf4U",
+  authDomain: "dca-perez.firebaseapp.com",
+  projectId: "dca-perez",
+  storageBucket: "dca-perez.appspot.com",
+  messagingSenderId: "116722604539",
+  appId: "1:116722604539:web:62b7afc51095347ef1535e",
+  measurementId: "G-M6EX5SP9ML"
 };
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
-export const signUp = async() => {
-createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
+export const signUp = async(email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    return user
-  })
-  .catch((error) => {
+    console.log(user);
+    return user;
+  } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log(errorCode, errorMessage);
-    return error
-});
+    console.error(errorCode, errorMessage);
+    return error;
+  }
 }
 
 export const logIn = async() => {
