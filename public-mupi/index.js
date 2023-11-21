@@ -17,6 +17,8 @@ const app = (p5) => {
       currentScreenInstance = new MupiQRScreen(p5, changeScreen);
     } else if (currentScreen === 'main') {
       currentScreenInstance = new MupiMainScreen(p5, changeScreen);
+    } else if (currentScreen === 'game') {
+      currentScreenInstance = new MupiGameScreen(p5, changeScreen);
     } 
     // Configurar la pantalla actual.
     currentScreenInstance.setup();
@@ -33,6 +35,10 @@ const app = (p5) => {
 
     socket.on('signUp', () => {
       changeScreen('main');
+    });
+
+    socket.on('letsGame', () => {
+      changeScreen('game');
     });
   };
 

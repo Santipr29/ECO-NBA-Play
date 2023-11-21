@@ -1,4 +1,4 @@
-// import "../../firebase.js"
+//import { signUp } from "../../firebase.js";
 
 export class CellPhoneSignUpScreen {
     constructor(p5, changeScreen) {
@@ -43,9 +43,12 @@ export class CellPhoneSignUpScreen {
         const email = this.emailInput.value();
         const password = this.passwordInput.value();
 
+        this.socket.emit('letsGame')
+
         // signUp(email, password)
         //   .then((user) => {
         //     // Hacer algo después de que el usuario se registra exitosamente
+        //     this.socket.emit('letsGame')
         //     console.log('Sign up successful!', user);
         //   })
         //   .catch((error) => {

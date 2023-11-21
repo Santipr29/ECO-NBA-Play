@@ -37,7 +37,7 @@ export const signUp = async(email, password) => {
   }
 }
 
-export const logIn = async() => {
+export const logIn = async(email, password) => {
 setPersistence(auth, browserSessionPersistence)
   .then(() => {
     return signInWithEmailAndPassword(auth, email, password);

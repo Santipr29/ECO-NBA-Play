@@ -23,6 +23,8 @@ const app = (p5) => {
       currentScreenInstance = new CellPhoneLogInScreen(p5, changeScreen);
     } else if (currentScreen === 'signUp') {
       currentScreenInstance = new CellPhoneSignUpScreen(p5, changeScreen);
+    } else if (currentScreen === 'game') {
+      currentScreenInstance = new CellPhoneGameScreen(p5, changeScreen);
     }
 
     currentScreenInstance.setup();
@@ -43,22 +45,28 @@ const app = (p5) => {
       changeScreen('signUp');
       currentScreenInstance.clear()
     });
-    //cellPhoneGameScreen.setup();
+
+    socket.on('letsGame', () => {
+      changeScreen('game');
+    });
   };
 
   // Función de dibujo de p5.js
   p5.draw = () => {
-    //cellPhoneGameScreen.draw();
     currentScreenInstance.draw();
   };
 
   // Manejar eventos táctiles
   p5.touchStarted = () => {
-    cellPhoneGameScreen.touchStarted();
+    if (currentScreen === 'game') {
+      currentScreenInstance.touchStarted()
+    }
   };
 
   p5.touchEnded = () => {
-    cellPhoneGameScreen.touchEnded();
+    if (currentScreen === 'game') {
+      currentScreenInstance.touchEnded()
+    }
   };
 };
 

@@ -1,3 +1,5 @@
+//import { logIn } from "../../firebase.js";
+
 export class CellPhoneLogInScreen {
     constructor(p5, changeScreen) {
         this.p5 = p5;
@@ -25,7 +27,21 @@ export class CellPhoneLogInScreen {
         this.logo = this.p5.loadImage('img/logocel.png');
   
         this.logInButton.mousePressed(() => {
+          const email = this.emailInput.value();
+          const password = this.passwordInput.value();
+  
+          this.socket.emit('letsGame')
 
+          // logIn(email, password)
+          //   .then((user) => {
+          //     // Hacer algo después de que el usuario se registra exitosamente
+          //     this.socket.emit('letsGame')
+          //     console.log('Sign up successful!', user);
+          //   })
+          //   .catch((error) => {
+          //     // Manejar errores durante el registro
+          //     console.error('Error during sign up:', error);
+          //   });
         });
   
         this.account.mousePressed(() => {
