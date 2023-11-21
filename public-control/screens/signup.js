@@ -1,9 +1,8 @@
 // import "../../firebase.js"
 
 export class CellPhoneSignUpScreen {
-    constructor(p5, changeScreenCallback) {
+    constructor(p5, changeScreen) {
       this.p5 = p5;
-      this.changeScreen = changeScreenCallback;
   
       this.back;
       this.logo;
@@ -56,12 +55,25 @@ export class CellPhoneSignUpScreen {
       });
 
       this.account.mousePressed(() => {
-        console.log('Account clicked!');
+        this.socket.emit('logIn')
       });
+
+      this.changeScreen = changeScreen;
+      this.setup();
   }
 
   setup() {
       this.p5.createCanvas(390, 844);
+  }
+
+  clear(){
+    this.firstNameInput.hide();
+    this.lastNameInput.hide();
+    this.emailInput.hide();
+    this.passwordInput.hide();
+    this.genderSelect.hide();
+    this.signUpButton.hide();
+    this.account.hide();
   }
 
   draw() {

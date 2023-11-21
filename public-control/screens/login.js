@@ -1,7 +1,6 @@
 export class CellPhoneLogInScreen {
-    constructor(p5, changeScreenCallback) {
+    constructor(p5, changeScreen) {
         this.p5 = p5;
-        this.changeScreen = changeScreenCallback;
     
         this.back;
         this.logo;
@@ -26,16 +25,26 @@ export class CellPhoneLogInScreen {
         this.logo = this.p5.loadImage('img/logocel.png');
   
         this.logInButton.mousePressed(() => {
-          console.log('Log In clicked!');
+
         });
   
         this.account.mousePressed(() => {
-          console.log('Sign Up clicked!');
+          this.socket.emit('signUp')
         });
+
+        this.changeScreen = changeScreen;
+        this.setup();
     }
   
     setup() {
         this.p5.createCanvas(390, 844);
+    }
+
+    clear(){
+      this.emailInput.hide();
+      this.passwordInput.hide();
+      this.logInButton.hide();
+      this.account.hide();
     }
   
     draw() {

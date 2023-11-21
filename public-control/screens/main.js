@@ -1,7 +1,6 @@
 export class CellPhoneMainScreen {
-    constructor(p5, changeScreenCallback) {
+    constructor(p5, changeScreen) {
       this.p5 = p5;
-      this.changeScreen = changeScreenCallback;
   
       this.back;
       this.logo;
@@ -20,18 +19,24 @@ export class CellPhoneMainScreen {
       this.players = this.p5.loadImage('img/mainimg2.png');
       
       this.logIn.mousePressed(() => {
-          console.log('Log In clicked!');
           this.socket.emit('logIn')
       });
 
       this.signUp.mousePressed(() => {
-          console.log('Sign Up clicked!');
           this.socket.emit('signUp')
       });
+
+      this.changeScreen = changeScreen;
+      this.setup();
     }
 
     setup(){
       this.p5.createCanvas(390, 844);
+    }
+
+    clear(){
+      this.logIn.hide();
+      this.signUp.hide();
     }
 
     draw() {
