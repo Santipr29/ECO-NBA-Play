@@ -7,8 +7,6 @@ const app = (p5) => {
   let currentScreen = null;
   let currentScreenInstance = null;
   let socket;
-  const cellPhoneGameScreen = new CellPhoneGameScreen(p5);
-  
 
   const changeScreen = (newScreen) => {
     if (currentScreenInstance) {

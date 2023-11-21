@@ -19,6 +19,8 @@ const app = (p5) => {
       currentScreenInstance = new MupiMainScreen(p5, changeScreen);
     } else if (currentScreen === 'game') {
       currentScreenInstance = new MupiGameScreen(p5, changeScreen);
+    } else if (currentScreen === 'scores') {
+      currentScreenInstance = new MupiScoreScreen(p5, changeScreen);
     } 
     // Configurar la pantalla actual.
     currentScreenInstance.setup();
@@ -39,6 +41,10 @@ const app = (p5) => {
 
     socket.on('letsGame', () => {
       changeScreen('game');
+    });
+
+    socket.on('playersScores', () => {
+      changeScreen('scores');
     });
   };
 

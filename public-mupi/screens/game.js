@@ -18,6 +18,7 @@ export class MupiGameScreen {
     this.basketDir = 1;
     this.timeLeft = 60;
     this.startTime = 5;
+    this.changeScreenTime = 5;
 
     this.ballImg;
     this.post;
@@ -58,6 +59,13 @@ setup() {
       this.timeLeft--;
       if (this.timeLeft <= 0) {
         this.gameOver();
+        let startInterval2 = setInterval(() => {
+          this.changeScreenTime--;
+          if (this.changeScreenTime <= 0) {
+            clearInterval(startInterval2);
+            this.socket.emit('playersScores')
+          }
+        }, 1000);
       }
     }
   }, 1000);
@@ -214,13 +222,13 @@ setup() {
       ) {
         this.enteredBasket = true;
         this.score++;
-        this.socket.emit('mensaje', this.enteredBasket);
+        // this.socket.emit('mensaje', this.enteredBasket);
 
-        setTimeout(() => {
-          this.enteredBasket = false;
-          this.socket.emit('mensaje', this.enteredBasket);
-        }, 
-        1000); 
+        // setTimeout(() => {
+        //   this.enteredBasket = false;
+        //   this.socket.emit('mensaje', this.enteredBasket);
+        // }, 
+        // 1000); 
       }
     }
   }
