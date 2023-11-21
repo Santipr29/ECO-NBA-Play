@@ -47,6 +47,10 @@ const app = (p5) => {
     socket.on('letsGame', () => {
       changeScreen('game');
     });
+
+    socket.on('restart', () => {
+      changeScreen('main');
+    });
   };
 
   // Función de dibujo de p5.js

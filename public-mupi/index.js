@@ -46,6 +46,10 @@ const app = (p5) => {
     socket.on('playersScores', () => {
       changeScreen('scores');
     });
+
+    socket.on('restart', () => {
+      changeScreen('qr');
+    });
   };
 
   // Función de dibujo de p5.js

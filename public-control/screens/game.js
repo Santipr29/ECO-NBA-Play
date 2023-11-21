@@ -36,6 +36,8 @@ export class CellPhoneGameScreen {
       this.ball.update();
     }
   
+    clear(){}
+
     touchStarted() {
       this.startDrag = this.p5.createVector(this.p5.mouseX, this.p5.mouseY);
     }

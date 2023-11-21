@@ -6,7 +6,8 @@ export class MupiScoreScreen {
         this.back2;
         this.logo;
         this.qr;
-    
+        this.startTime = 10;
+
         this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
     
         // Cargar imágenes
@@ -17,6 +18,14 @@ export class MupiScoreScreen {
 
       setup(){
         this.p5.createCanvas(600, 658);
+        let startInterval = setInterval(() => {
+          this.startTime--;
+          if (this.startTime <= 0) {
+            clearInterval(startInterval);
+            this.socket.emit('restart')
+          }
+        }, 1000);
+
       }
 
       draw() {
