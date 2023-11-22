@@ -28,7 +28,7 @@ export class CellPhoneLogInScreen {
           const email = this.emailInput.value();
           const password = this.passwordInput.value();
   
-          this.socket.emit('letsGame2')
+          this.socket.emit('logInData', {email: email, password: password})
         });
   
         this.account.mousePressed(() => {

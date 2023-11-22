@@ -75,17 +75,22 @@ const signUp = async(io, userData) => {
   }
 }
 
-const logIn = async(email, password) => {
-setPersistence(auth, browserSessionPersistence)
-  .then(() => {
-    return signInWithEmailAndPassword(auth, email, password);
+const logIn = async(io, userData) => {
+  const {email, password} = userData
+  await signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    const user = userCredential.user;
+    if (user) {
+      io.emit('letsGame')
+    }
+    return user;
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log(errorCode, errorMessage);
-    return error
-});
+    console.error(errorCode, errorMessage);
+    return error;
+  });
 }
 
 const db = getFirestore(app);
@@ -149,14 +154,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('logInData', userData => {
-      signUp(socket, userData);
+      logIn(io, userData);
       io.emit('logInData', userData);
     });
 
     socket.on('letsGame', () => {
       io.emit('letsGame');
     });
-
 
     socket.on('playersScores', () => {
       io.emit('playersScores');
