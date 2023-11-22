@@ -40,8 +40,10 @@ export class CellPhoneSignUpScreen {
       this.signUpButton.mousePressed(() => {
         const email = this.emailInput.value();
         const password = this.passwordInput.value();
+        const firstname = this.firstNameInput.value();
+        const lastname = this.lastNameInput.value()
 
-        this.socket.emit('signUpData', {email: email, password: password})
+        this.socket.emit('signUpData', {firstname: firstname, lastname:lastname, email: email, password: password})
       });
 
       this.account.mousePressed(() => {

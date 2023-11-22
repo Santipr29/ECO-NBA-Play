@@ -64,7 +64,7 @@ const signUp = async(io, userData) => {
     const user = userCredential.user;
     console.log(user);
     if (user) {
-      io.emit('letsGame')
+      io.emit('letsGame',{uid: user.uid})
     }
     return user;
   } catch (error) {
@@ -95,17 +95,17 @@ const logIn = async(io, userData) => {
 
 const db = getFirestore(app);
 
-const addUsersDB = async() => {
+const addUsersDB = async(uid, userData) => {
 try {
-    user.uid = UserCredential
-    await setDoc(doc(db, "users", user.uid),{
-        first:"",
-        last:"",
-        email:"",
-        img:"",
-        score:"",
+  const { firstname, lastname, email } = userData;
+    await setDoc(doc(db, "users", uid),{
+        first: firstname,
+        last:lastname,
+        email:email,
+        img: "",
+        score: 0,
     })
-    console.log("Document written with ID: ", user.uid);
+    console.log("Document written with ID: ", uid);
     return true
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -148,9 +148,12 @@ io.on('connection', (socket) => {
       io.emit('logIn');
     });
 
-    socket.on('signUpData', userData => {
-      signUp(io, userData)
-      io.emit('signUpData', userData);
+    socket.on('signUpData', async userData => {
+      const user = await signUp(io, userData);
+        if (user) {
+            await addUsersDB(user.uid, userData);
+        }
+        io.emit('signUpData', userData);
     });
 
     socket.on('logInData', userData => {
