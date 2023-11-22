@@ -57,12 +57,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const signUp = async(userData) => {
+const signUp = async(io, userData) => {
   try {
     const {email, password} = userData
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     console.log(user);
+    if (user) {
+      io.emit('letsGame')
+    }
     return user;
   } catch (error) {
     const errorCode = error.code;
@@ -141,12 +144,17 @@ io.on('connection', (socket) => {
     });
 
     socket.on('signUpData', userData => {
-      signUp(userData);
+      signUp(io, userData)
       io.emit('signUpData', userData);
     });
 
-    socket.on('letsGame2', (data) => {
-      io.emit('letsGame2', data);
+    socket.on('logInData', userData => {
+      signUp(socket, userData);
+      io.emit('logInData', userData);
+    });
+
+    socket.on('letsGame', () => {
+      io.emit('letsGame');
     });
 
 
