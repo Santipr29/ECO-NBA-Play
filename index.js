@@ -41,7 +41,7 @@ const io = new Server(httpServer, {
 
 //Firebase
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs, orderBy, query, onSnapshot, where, setDoc, doc, getDoc} from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, orderBy, query, onSnapshot, where, setDoc, doc, getDoc, updateDoc} from "firebase/firestore";
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence} from "firebase/auth";
 
 const firebaseConfig = {
@@ -56,6 +56,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
+let uidUser;
 
 const signUp = async(io, userData) => {
   try {
@@ -112,6 +114,22 @@ try {
     return false
 }}
 
+const addUsersScoresDB = async(scoreData) => {
+  try {
+    const { score } = scoreData;
+    const userDocRef = doc(db, "users", uidUser);
+
+    await updateDoc(userDocRef, {
+      score: score
+    });
+
+    console.log("Document written with ID: ", uidUser);
+    return true
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      return false
+  }}
+
 const getUsersDB = async () => {
     const users = [];
 
@@ -152,17 +170,23 @@ io.on('connection', (socket) => {
       const user = await signUp(io, userData);
         if (user) {
             await addUsersDB(user.uid, userData);
+            uidUser = user.uid;
         }
         io.emit('signUpData', userData);
     });
 
-    socket.on('logInData', userData => {
-      logIn(io, userData);
+    socket.on('logInData', async userData => {
+      await logIn(io, userData);
       io.emit('logInData', userData);
     });
 
     socket.on('letsGame', () => {
       io.emit('letsGame');
+    });
+
+    socket.on('userScore', async scoreData => {
+      await addUsersScoresDB(scoreData);
+      io.emit('userScore', scoreData);
     });
 
     socket.on('playersScores', () => {

@@ -59,6 +59,7 @@ setup() {
       this.timeLeft--;
       if (this.timeLeft <= 0) {
         this.gameOver();
+        this.socket.emit('userScore', {score: this.score})
         let startInterval2 = setInterval(() => {
           this.changeScreenTime--;
           if (this.changeScreenTime <= 0) {
