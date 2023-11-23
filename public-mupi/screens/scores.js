@@ -26,6 +26,16 @@ export class MupiScoreScreen {
           }
         }, 1000);
 
+        // Solicitar la lista de usuarios ordenada al conectarse
+        this.socket.emit('requestUsers');
+
+        // Escuchar el evento 'sendUsers'
+        this.socket.on('sendUsers', (users) => {
+            // Actualizar la pantalla con la nueva información de usuarios
+            console.log('Users received:', users);
+            // Realiza las acciones necesarias para mostrar la información en la pantalla
+        });
+
       }
 
       draw() {

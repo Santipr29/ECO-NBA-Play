@@ -130,17 +130,25 @@ const addUsersScoresDB = async(scoreData) => {
       return false
   }}
 
-const getUsersDB = async () => {
+const getUsersDB = async (io) => {
+  try {
     const users = [];
-
-    const q=query(collection(db,"users"), orderBy("score"))
+    const q = query(collection(db, "users"), orderBy("score", "desc"));
     const querySnapshot = await getDocs(q);
+
     querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      console.log(doc.id, " => ", data);
-      users.push(data);
+        const data = doc.data();
+        console.log(doc.id, " => ", data);
+        users.push(data);
     });
-    return users
+
+    io.emit('sendUsers', users);
+
+    return users;
+} catch (error) {
+    console.error("Error getting users: ", error);
+    return [];
+}
 };
 
 //Iniciar el servidor con sockets
@@ -189,11 +197,17 @@ io.on('connection', (socket) => {
       io.emit('userScore', scoreData);
     });
 
+    socket.on('requestUsers', async () => {
+      const users = await getUsersDB(io);
+      io.emit('sendUsers', users);
+    });
+
     socket.on('playersScores', () => {
       io.emit('playersScores');
     });
     
     socket.on('restart', () => {
+      uidUser = 0,
       io.emit('restart');
     });
 
