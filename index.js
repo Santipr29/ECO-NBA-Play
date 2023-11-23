@@ -97,12 +97,12 @@ const db = getFirestore(app);
 
 const addUsersDB = async(uid, userData) => {
 try {
-  const { firstname, lastname, email } = userData;
+  const { firstname, lastname, email, img } = userData;
     await setDoc(doc(db, "users", uid),{
         first: firstname,
         last:lastname,
         email:email,
-        img: "",
+        img: img,
         score: 0,
     })
     console.log("Document written with ID: ", uid);

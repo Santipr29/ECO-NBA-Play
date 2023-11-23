@@ -43,7 +43,16 @@ export class CellPhoneSignUpScreen {
         const firstname = this.firstNameInput.value();
         const lastname = this.lastNameInput.value()
 
-        this.socket.emit('signUpData', {firstname: firstname, lastname:lastname, email: email, password: password})
+        const gender = this.genderSelect.value();
+
+        let img = "";
+        if (gender === "Male") {
+          img = "img/usermale.png"; 
+        } else if (gender === "Female") {
+          img = "img/userfemale.png"; 
+        }
+
+        this.socket.emit('signUpData', {firstname: firstname, lastname:lastname, email: email, password: password, img: img})
       });
 
       this.account.mousePressed(() => {
