@@ -5,7 +5,7 @@ import { MupiMainScreen } from './screens/main.js';
 import { MupiScoreScreen } from './screens/scores.js';
 
 const app = (p5) => {
-  let currentScreen = 'qr';
+  let currentScreen = 'scores';
   let currentScreenInstance;
   let socket;
 
@@ -29,7 +29,7 @@ const app = (p5) => {
   // Configuración inicial de p5.js
   p5.setup = () => {
     socket = io.connect('http://localhost:5500', { path: '/real-time' });
-    changeScreen('qr');
+    changeScreen('scores');
 
     socket.on('logIn', () => {
       changeScreen('main');
@@ -56,6 +56,7 @@ const app = (p5) => {
   p5.draw = () => {
     currentScreenInstance.draw();
   };
+
 };
 
 // Iniciar la aplicación p5
