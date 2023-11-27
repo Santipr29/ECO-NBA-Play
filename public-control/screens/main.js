@@ -18,11 +18,11 @@ export class CellPhoneMainScreen {
       this.logo = this.p5.loadImage('img/logocel.png');
       this.players = this.p5.loadImage('img/mainimg2.png');
       
-      this.logIn.mousePressed(() => {
+      this.logIn.touchStarted(() => {
           this.socket.emit('logIn')
       });
 
-      this.signUp.mousePressed(() => {
+      this.signUp.touchStarted(() => {
           this.socket.emit('signUp')
       });
 

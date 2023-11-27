@@ -37,7 +37,7 @@ export class CellPhoneSignUpScreen {
       this.back = this.p5.loadImage('img/backcel.png');
       this.logo = this.p5.loadImage('img/logocel.png');
 
-      this.signUpButton.mousePressed(() => {
+      this.signUpButton.touchStarted(() => {
         const email = this.emailInput.value();
         const password = this.passwordInput.value();
         const firstname = this.firstNameInput.value();
@@ -55,7 +55,7 @@ export class CellPhoneSignUpScreen {
         this.socket.emit('signUpData', {firstname: firstname, lastname:lastname, email: email, password: password, img: img})
       });
 
-      this.account.mousePressed(() => {
+      this.account.touchStarted(() => {
         this.socket.emit('logIn')
       });
 

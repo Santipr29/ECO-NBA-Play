@@ -29,7 +29,7 @@ export class MupiScoreScreen {
         this.top8score;
         this.top9score;
 
-        this.startTime = 10;
+        this.startTime = 20;
 
         this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
         this.background = this.p5.loadImage('img/topbackground.png');

@@ -24,14 +24,14 @@ export class CellPhoneLogInScreen {
         this.back = this.p5.loadImage('img/backcel.png');
         this.logo = this.p5.loadImage('img/logocel.png');
   
-        this.logInButton.mousePressed(() => {
+        this.logInButton.touchStarted(() => {
           const email = this.emailInput.value();
           const password = this.passwordInput.value();
   
           this.socket.emit('logInData', {email: email, password: password})
         });
   
-        this.account.mousePressed(() => {
+        this.account.touchStarted(() => {
           this.socket.emit('signUp')
         });
 

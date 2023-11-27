@@ -15,7 +15,7 @@ expressApp.use(cors())
 const httpServer = expressApp.listen(PORT, () => {
     console.table(
         {
-            'Controller:': 'http://localhost:5500/controller',
+            'Controller:': 'https://34e5-2800-484-c3f-1e00-82-c28-a481-51c9.ngrok-free.app/controller',
             'Game:': 'http://localhost:5500/game',
         })
 })
@@ -24,11 +24,11 @@ expressApp.use('/game', express.static('public-mupi'))
 expressApp.use('/controller', express.static('public-control'))
 expressApp.use(express.json())
 
-const port = new SerialPort({
-    path:'COM3',
-    baudRate:9600,
+// const port = new SerialPort({
+//     path:'COM3',
+//     baudRate:9600,
 
-  });
+//   });
 
 //Comportamiento del servidor
 const io = new Server(httpServer, {
