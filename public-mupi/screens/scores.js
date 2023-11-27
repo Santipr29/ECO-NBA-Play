@@ -85,55 +85,79 @@ export class MupiScoreScreen {
         this.p5.background(230);
         this.p5.image(this.background,0,0)
         this.p5.image(this.cards, 10,350)
+        this.p5.image(this.cards, 10,450)
+        this.p5.image(this.cards, 10,550)
+        this.p5.image(this.cards, 310,350)
+        this.p5.image(this.cards, 310,450)
+        this.p5.image(this.cards, 310,550)
 
         if (this.top1img) {
-          this.p5.image(this.top1img, 0, 0);
+          this.p5.noStroke();
+          this.p5.fill('#FFD749');
+          this.p5.ellipse(300, 195, 80, 80);
+          this.p5.image(this.top1img, 265, 160, 70, 70);
         }
 
         if (this.top2img) {
-          this.p5.image(this.top2img, 50, 0);
+          this.p5.noStroke();
+          this.p5.fill('#D4D4D4');
+          this.p5.ellipse(130, 185, 60, 60);
+          this.p5.image(this.top2img, 105, 160);
+          
         }
 
         if (this.top3img) {
-          this.p5.image(this.top3img, 100, 0);
+          this.p5.noStroke();
+          this.p5.fill('#86480F');
+          this.p5.ellipse(466, 185, 60, 60);
+          this.p5.image(this.top3img, 440, 160);
         }
 
         this.p5.textSize(32);
         this.p5.textStyle(this.p5.BOLD)
         this.p5.fill('#FFFFFF');
-        this.p5.text("Leaderboard ", 100, 50);
+        this.p5.text("Leaderboard ", 205, 50);
 
         this.p5.textSize(14);
         this.p5.textStyle(this.p5.NORMAL)
         this.p5.fill('#FFFFFF');
-        this.p5.text("Garden Stadium", 100, 100);
-        this.p5.text("2", 100, 150);
-        this.p5.text("3", 300, 150);
-        this.p5.text(this.top1name, 55, 300);
-        this.p5.text(this.top2name, 248, 300);
-        this.p5.text(this.top3name, 38, 400);
+        this.p5.text("Garden Stadium", 250, 80);
+        this.p5.text("2", 126, 150);
+        this.p5.text("3", 460, 150);
+
+        this.p5.textSize(16);
+        this.p5.text(this.top1name, 260, 270);
+
+        this.p5.textSize(14);
+        this.p5.text(this.top2name, 85, 250);
+        this.p5.text(this.top3name, 427, 250);
 
         this.p5.fill('#2A3041');
-        this.p5.text(this.top4name, 52, 500);
-        this.p5.text(this.top5name, 45, 600);
-        this.p5.text(this.top6name, 45, 600);
-        this.p5.text(this.top7name, 45, 600);
-        this.p5.text(this.top8name, 45, 600);
-        this.p5.text(this.top9name, 45, 600);
+        this.p5.text("4", 25, 390);
+        this.p5.text(this.top4name, 50, 390);
+        this.p5.text("5", 325, 390);
+        this.p5.text(this.top5name, 350, 390);
+        this.p5.text("6", 25, 490);
+        this.p5.text(this.top6name, 50, 490);
+        this.p5.text("7", 325, 490);
+        this.p5.text(this.top7name, 350, 490);
+        this.p5.text("8", 25, 590);
+        this.p5.text(this.top8name, 50, 590);
+        this.p5.text("9", 325, 590);
+        this.p5.text(this.top9name, 350, 590);
 
         this.p5.textStyle(this.p5.BOLD)
         this.p5.fill('#FFFFFF');
-        this.p5.text(this.top1score, 55, 300);
-        this.p5.text(this.top2score, 248, 300);
-        this.p5.text(this.top3score, 38, 400);
+        this.p5.text(this.top1score, 295, 250);
+        this.p5.text(this.top2score, 125, 230);
+        this.p5.text(this.top3score, 462, 230);
 
         this.p5.fill('#2A3041');
-        this.p5.text(this.top4score, 52, 500);
-        this.p5.text(this.top5score, 45, 600);
-        this.p5.text(this.top6score, 45, 600);
-        this.p5.text(this.top7score, 45, 600);
-        this.p5.text(this.top8score, 45, 600);
-        this.p5.text(this.top9score, 45, 600);
-
+        this.p5.text(this.top4score, 250, 390);
+        this.p5.text(this.top5score, 545, 390);
+        this.p5.text(this.top6score, 250, 490);
+        this.p5.text(this.top7score, 545, 490);
+        this.p5.text(this.top8score, 250, 590);
+        this.p5.text(this.top9score, 545, 590);
       }
 }
