@@ -1,14 +1,16 @@
-// Importar la clase MupiGameScreen desde el archivo 'game.js'
+// Importar las pantallas
 import { MupiGameScreen } from './screens/game.js';
 import {MupiQRScreen} from './screens/qr.js'
 import { MupiMainScreen } from './screens/main.js';
 import { MupiScoreScreen } from './screens/scores.js';
 
 const app = (p5) => {
+  //Estado de pantallas
   let currentScreen = 'qr';
   let currentScreenInstance;
   let socket;
 
+  //Cambio de pantalla
   const changeScreen = (screen) => {
     currentScreen = screen;
 
@@ -26,11 +28,12 @@ const app = (p5) => {
     currentScreenInstance.setup();
   };
 
-  // Configuración inicial de p5.js
+  // Configuración de la pantalla correspondiente al estado
   p5.setup = () => {
     socket = io.connect('http://localhost:5500', { path: '/real-time' });
     changeScreen('qr');
 
+    //Recibir los mensajes del servidor para hacer los cambios de pantallas
     socket.on('logIn', () => {
       changeScreen('main');
     });

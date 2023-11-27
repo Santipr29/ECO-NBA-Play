@@ -183,8 +183,6 @@ setup() {
     }
   }
 
-  
-
   // Finalizar el juego
   gameOver() {
     this.gameStarted = false;
@@ -234,9 +232,6 @@ setup() {
     }
   }
 }
-
-  
-
 
 // Objeto del balón
 class Ball {

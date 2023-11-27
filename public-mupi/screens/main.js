@@ -25,6 +25,8 @@ export class MupiMainScreen {
       this.p5.image(this.back,0,0, 600, 658)
       this.p5.image(this.back2, 0, 160, 600, 500);
       this.p5.image(this.logo, 200, 30);
+
+      //Crear la notificacion de espera
       this.p5.rectMode(this.p5.CORNER)
       this.p5.fill(0, 0, 0, 150);
       this.p5.rect(0, 0, this.p5.width,this.p5.height);

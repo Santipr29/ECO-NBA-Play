@@ -18,6 +18,7 @@ const app = (p5) => {
 
     currentScreen = newScreen;
 
+    // Crear una nueva instancia de la pantalla actual.
     if (currentScreen === 'main') {
       currentScreenInstance = new CellPhoneMainScreen(p5, changeScreen);
     } else if (currentScreen === 'logIn') {
@@ -27,7 +28,7 @@ const app = (p5) => {
     } else if (currentScreen === 'game') {
       currentScreenInstance = new CellPhoneGameScreen(p5, changeScreen);
     }
-
+    // Configurar la pantalla actual.
     currentScreenInstance.setup();
   };
 

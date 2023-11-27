@@ -38,10 +38,13 @@ export class MupiScoreScreen {
 
       setup(){
         this.p5.createCanvas(600, 658);
+
+        //Contador para reiniciar todo el juego
         let startInterval = setInterval(() => {
           this.startTime--;
           if (this.startTime <= 0) {
             clearInterval(startInterval);
+            //Enviar mensaje de reinicio al servidor
             this.socket.emit('restart')
           }
         }, 1000);
@@ -52,10 +55,13 @@ export class MupiScoreScreen {
         // Escuchar el evento 'sendUsers'
         this.socket.on('sendUsers', (users) => {
             // Actualizar la pantalla con la nueva información de usuarios
+
+            //Imagenes del top 3
             this.top1img = this.p5.loadImage(users[0].img);
             this.top2img = this.p5.loadImage(users[1].img);
             this.top3img = this.p5.loadImage(users[2].img);
             
+            //Nombres de todos los jugadores en el top 9
             this.top1name = `${users[0].first} ${users[0].last}`;
             this.top2name = `${users[1].first} ${users[1].last}`;
             this.top3name = `${users[2].first} ${users[2].last}`;
@@ -66,6 +72,7 @@ export class MupiScoreScreen {
             this.top8name = `${users[7].first} ${users[7].last}`;
             this.top9name = `${users[8].first} ${users[8].last}`;
 
+            //Puntaje de cada jugador del top 9
             this.top1score = users[0].score
             this.top2score = users[1].score
             this.top3score = users[2].score
@@ -83,6 +90,8 @@ export class MupiScoreScreen {
       draw() {
         this.p5.background(230);
         this.p5.image(this.background,0,0)
+
+        //Pintar las cards donde va el top 4 hasta el top 9
         this.p5.image(this.cards, 10,350)
         this.p5.image(this.cards, 10,450)
         this.p5.image(this.cards, 10,550)
@@ -90,6 +99,7 @@ export class MupiScoreScreen {
         this.p5.image(this.cards, 310,450)
         this.p5.image(this.cards, 310,550)
 
+        //Validar que cada persona del top 3 tiene imagen para pintarla
         if (this.top1img) {
           this.p5.noStroke();
           this.p5.fill('#FFD749');
@@ -112,6 +122,7 @@ export class MupiScoreScreen {
           this.p5.image(this.top3img, 440, 160);
         }
 
+        //Texto encabezado
         this.p5.textSize(32);
         this.p5.textStyle(this.p5.BOLD)
         this.p5.fill('#FFFFFF');
@@ -124,6 +135,7 @@ export class MupiScoreScreen {
         this.p5.text("2", 126, 150);
         this.p5.text("3", 460, 150);
 
+        //Textos de usuarios
         this.p5.textSize(16);
         this.p5.text(this.top1name, 260, 270);
 

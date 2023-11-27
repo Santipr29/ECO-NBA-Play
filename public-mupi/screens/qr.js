@@ -14,6 +14,7 @@ export class MupiQRScreen {
         this.back1 = this.p5.loadImage('img/mupiback.png');
         this.back2 = this.p5.loadImage('img/backfrontmupi.png');
         this.logo = this.p5.loadImage('img/nbalogo.png')
+        //this.qr = this.p5.loadImage('img/qr.png')
       }
 
       setup(){
