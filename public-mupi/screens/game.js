@@ -223,13 +223,13 @@ setup() {
       ) {
         this.enteredBasket = true;
         this.score++;
-        // this.socket.emit('mensaje', this.enteredBasket);
+        this.socket.emit('mensaje', this.enteredBasket);
 
-        // setTimeout(() => {
-        //   this.enteredBasket = false;
-        //   this.socket.emit('mensaje', this.enteredBasket);
-        // }, 
-        // 1000); 
+        setTimeout(() => {
+          this.enteredBasket = false;
+          this.socket.emit('mensaje', this.enteredBasket);
+        }, 
+        1000); 
       }
     }
   }

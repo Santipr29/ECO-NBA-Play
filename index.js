@@ -24,11 +24,11 @@ expressApp.use('/game', express.static('public-mupi'))
 expressApp.use('/controller', express.static('public-control'))
 expressApp.use(express.json())
 
-// const port = new SerialPort({
-//     path:'COM3',
-//     baudRate:9600,
+const port = new SerialPort({
+    path:'COM3',
+    baudRate:9600,
 
-//   });
+  });
 
 //Comportamiento del servidor
 const io = new Server(httpServer, {
