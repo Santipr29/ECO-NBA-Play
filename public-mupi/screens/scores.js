@@ -38,13 +38,13 @@ export class MupiScoreScreen {
 
       setup(){
         this.p5.createCanvas(600, 658);
-        // let startInterval = setInterval(() => {
-        //   this.startTime--;
-        //   if (this.startTime <= 0) {
-        //     clearInterval(startInterval);
-        //     this.socket.emit('restart')
-        //   }
-        // }, 1000);
+        let startInterval = setInterval(() => {
+          this.startTime--;
+          if (this.startTime <= 0) {
+            clearInterval(startInterval);
+            this.socket.emit('restart')
+          }
+        }, 1000);
 
         // Solicitar la lista de usuarios ordenada al conectarse
         this.socket.emit('requestUsers');
@@ -52,7 +52,6 @@ export class MupiScoreScreen {
         // Escuchar el evento 'sendUsers'
         this.socket.on('sendUsers', (users) => {
             // Actualizar la pantalla con la nueva información de usuarios
-            console.log('Users received:', users);
             this.top1img = this.p5.loadImage(users[0].img);
             this.top2img = this.p5.loadImage(users[1].img);
             this.top3img = this.p5.loadImage(users[2].img);
