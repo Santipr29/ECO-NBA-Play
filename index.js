@@ -15,8 +15,8 @@ expressApp.use(cors())
 const httpServer = expressApp.listen(PORT, () => {
     console.table(
         {
-            'Controller:': 'http://localhost:5500/game',
-            'Game:': 'http://localhost:5500/game',
+            'Controller:': 'https://3c46-2800-484-c3f-1e00-11ae-8db6-3931-13ec.ngrok-free.app/controller',
+            'Game:': 'https://3c46-2800-484-c3f-1e00-11ae-8db6-3931-13ec.ngrok-free.app/game',
         })
 })
 

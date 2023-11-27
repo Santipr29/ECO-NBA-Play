@@ -5,7 +5,7 @@ export class CellPhoneSignUpScreen {
       this.back;
       this.logo;
   
-      this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
+      this.socket = io.connect('https://3c46-2800-484-c3f-1e00-11ae-8db6-3931-13ec.ngrok-free.app', { path: '/real-time' });
   
       // Crear campos de entrada y botón usando createInput y createButton
       this.firstNameInput = p5.createInput().position(20, 320).size(150, 30);
