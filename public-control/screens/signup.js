@@ -23,6 +23,7 @@ export class CellPhoneSignUpScreen {
       this.genderSelect = p5.createSelect().position(20, 620).size(350, 40);
       this.genderSelect.style('background-color', '#F2F4F8').style('border-radius', '10px').style('border', '2px solid #C1C7CD').style('font-size', '16px').style('color', '#697077').style('font-weight', 'regular');
 
+      //Crear botones para enviar informacion del Sign Up o cambiar de pantalla para el Log In
       this.signUpButton = p5.createButton('Sign Up').position(20, 700).size(350, 40);
       this.signUpButton.style('background-color', '#D71E54').style('border-radius', '10px').style('border', '2px solid #F43F74').style('font-size', '16px').style('color', 'white').style('font-weight', 'bold');
 
@@ -37,7 +38,9 @@ export class CellPhoneSignUpScreen {
       this.back = this.p5.loadImage('img/backcel.png');
       this.logo = this.p5.loadImage('img/logocel.png');
 
+      //Darle click a los botones
       this.signUpButton.touchStarted(() => {
+        //Tomar valores de los inputs
         const email = this.emailInput.value();
         const password = this.passwordInput.value();
         const firstname = this.firstNameInput.value();
@@ -45,6 +48,7 @@ export class CellPhoneSignUpScreen {
 
         const gender = this.genderSelect.value();
 
+        //Tomar el valor del campo de seleccion para mandar la informacion correspondiente
         let img = "";
         if (gender === "Male") {
           img = "img/usermale.png"; 
@@ -52,10 +56,12 @@ export class CellPhoneSignUpScreen {
           img = "img/userfemale.png"; 
         }
 
+        //Enviar los valores de los inputs al server
         this.socket.emit('signUpData', {firstname: firstname, lastname:lastname, email: email, password: password, img: img})
       });
 
       this.account.touchStarted(() => {
+        //Cambiar de pantalla a Log In
         this.socket.emit('logIn')
       });
 
@@ -67,6 +73,7 @@ export class CellPhoneSignUpScreen {
       this.p5.createCanvas(390, 844);
   }
 
+  //Eliminar elementos html
   clear(){
     this.firstNameInput.hide();
     this.lastNameInput.hide();

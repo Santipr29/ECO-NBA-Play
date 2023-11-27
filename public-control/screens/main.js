@@ -6,6 +6,7 @@ export class CellPhoneMainScreen {
       this.logo;
       this.players;
 
+      //Crear botones para cambiar de pantalla Sign Up y Log In
       this.logIn = p5.createButton('Log In').position(20, 270).size(350, 50);
       this.logIn.style('background-color', '#006AB7').style('border-radius', '10px').style('border', '2px solid #0F62FE').style('font-size', '16px').style('color', 'white').style('font-weight', 'bold');
       this.signUp = p5.createButton('Sign Up').position(20, 340).size(350, 50);
@@ -18,11 +19,14 @@ export class CellPhoneMainScreen {
       this.logo = this.p5.loadImage('img/logocel.png');
       this.players = this.p5.loadImage('img/mainimg2.png');
       
+      //Darle click a los botones
       this.logIn.touchStarted(() => {
+        //Cambiar de pantalla a Log In
           this.socket.emit('logIn')
       });
 
       this.signUp.touchStarted(() => {
+        //Cambiar de pantalla a Sign Up
           this.socket.emit('signUp')
       });
 
@@ -34,6 +38,7 @@ export class CellPhoneMainScreen {
       this.p5.createCanvas(390, 844);
     }
 
+    //Eliminar elementos html
     clear(){
       this.logIn.hide();
       this.signUp.hide();

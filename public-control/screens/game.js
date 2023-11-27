@@ -38,11 +38,14 @@ export class CellPhoneGameScreen {
   
     clear(){}
 
+    //Inicio del arrastre para el lanzamiento
     touchStarted() {
       this.startDrag = this.p5.createVector(this.p5.mouseX, this.p5.mouseY);
     }
   
+    //Fin del arrastre para el lanzamiento
     touchEnded() {
+      //Crear vectores de lanzamiento
       const endDrag = this.p5.createVector(this.p5.mouseX, this.p5.mouseY);
       const dragVector = this.p5.createVector(endDrag.x - this.startDrag.x, endDrag.y - this.startDrag.y);
       this.ball.launch(dragVector);
@@ -52,6 +55,7 @@ export class CellPhoneGameScreen {
     }
   }
   
+  //Objeto del balon con sus propiedades
   class Ball {
     constructor(x, y, p5) {
       this.startPos = p5.createVector(x, y);

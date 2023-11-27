@@ -14,6 +14,7 @@ export class CellPhoneLogInScreen {
         this.passwordInput = p5.createInput().position(24, 460).size(332, 30).attribute('type', 'password');
         this.passwordInput.style('background-color', '#F2F4F8').style('border-radius', '10px').style('border', '2px solid #C1C7CD').style('font-size', '16px').style('color', '#697077').style('font-weight', 'regular');
   
+        //Crear botones para enviar informacion del Log In o cambiar de pantalla para el Sign Up
         this.logInButton = p5.createButton('Log In').position(20, 580).size(350, 40);
         this.logInButton.style('background-color', '#006AB7').style('border-radius', '10px').style('border', '2px solid #0F62FE').style('font-size', '16px').style('color', 'white').style('font-weight', 'bold');
   
@@ -24,14 +25,18 @@ export class CellPhoneLogInScreen {
         this.back = this.p5.loadImage('img/backcel.png');
         this.logo = this.p5.loadImage('img/logocel.png');
   
+        //Darle click a los botones
         this.logInButton.touchStarted(() => {
+          //Tomar valores de los inputs
           const email = this.emailInput.value();
           const password = this.passwordInput.value();
   
+          //Enviar los valores de los inputs al server
           this.socket.emit('logInData', {email: email, password: password})
         });
   
         this.account.touchStarted(() => {
+          //Cambiar de pantalla a Sign Up
           this.socket.emit('signUp')
         });
 
@@ -43,6 +48,7 @@ export class CellPhoneLogInScreen {
         this.p5.createCanvas(390, 844);
     }
 
+    //Eliminar elementos html
     clear(){
       this.emailInput.hide();
       this.passwordInput.hide();

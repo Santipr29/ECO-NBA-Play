@@ -1,13 +1,16 @@
+//Importar pantallas
 import { CellPhoneGameScreen } from './screens/game.js';
 import { CellPhoneMainScreen } from './screens/main.js';
 import { CellPhoneSignUpScreen } from './screens/signup.js';
 import { CellPhoneLogInScreen } from './screens/login.js';
 
 const app = (p5) => {
+  //Estado de pantallas
   let currentScreen = null;
   let currentScreenInstance = null;
   let socket;
 
+  //Cambio de pantalla
   const changeScreen = (newScreen) => {
     if (currentScreenInstance) {
       currentScreenInstance.clear();
@@ -28,12 +31,13 @@ const app = (p5) => {
     currentScreenInstance.setup();
   };
 
-  // Configuración inicial de p5.js
+  // Configuración de la pantalla correspondiente al estado
   p5.setup = () => {
     socket = io.connect('http://localhost:5500', { path: '/real-time' });
 
     changeScreen('main');
     
+    //Recibir los mensajes del servidor para hacer los cambios de pantallas
     socket.on('logIn', () => {
       changeScreen('logIn');
       currentScreenInstance.clear()
