@@ -30,7 +30,7 @@ const app = (p5) => {
 
   // Configuración de la pantalla correspondiente al estado
   p5.setup = () => {
-    socket = io.connect('https://3c46-2800-484-c3f-1e00-11ae-8db6-3931-13ec.ngrok-free.app/', { path: '/real-time' });
+    socket = io.connect('https://41f4-2800-484-c3f-1e00-2d18-69d8-7ff0-b903.ngrok-free.app', { path: '/real-time' });
     changeScreen('qr');
 
     //Recibir los mensajes del servidor para hacer los cambios de pantallas

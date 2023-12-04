@@ -15,8 +15,8 @@ expressApp.use(cors())
 const httpServer = expressApp.listen(PORT, () => {
     console.table(
         {
-            'Controller:': 'https://3c46-2800-484-c3f-1e00-11ae-8db6-3931-13ec.ngrok-free.app/controller',
-            'Game:': 'https://3c46-2800-484-c3f-1e00-11ae-8db6-3931-13ec.ngrok-free.app/game',
+            'Controller:': 'https://41f4-2800-484-c3f-1e00-2d18-69d8-7ff0-b903.ngrok-free.app/controller',
+            'Game:': 'https://41f4-2800-484-c3f-1e00-2d18-69d8-7ff0-b903.ngrok-free.app/game',
         })
 })
 
@@ -79,6 +79,9 @@ const signUp = async(io, userData) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.error(errorCode, errorMessage);
+    if(error){
+      io.emit('error')
+    };
     return error;
   }
 }
@@ -92,6 +95,7 @@ const logIn = async(io, userData) => {
     const user = userCredential.user;
     if (user) {
       //Emitir el mensaje de comienzo de juego para cambiar las pantallas del mupi y el celular
+      uidUser = user.uid
       io.emit('letsGame')
     }
     return user;
@@ -101,6 +105,9 @@ const logIn = async(io, userData) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.error(errorCode, errorMessage);
+    if(error){
+      io.emit('error')
+    };
     return error;
   });
 }
@@ -205,6 +212,10 @@ io.on('connection', (socket) => {
             uidUser = user.uid;
         }
         io.emit('signUpData', userData);
+    });
+
+    socket.on('error', () => {
+      io.emit('error');
     });
 
     //Log In

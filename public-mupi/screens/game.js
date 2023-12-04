@@ -27,7 +27,7 @@ export class MupiGameScreen {
     this.back;
     this.logof;
 
-    this.socket = io.connect('https://3c46-2800-484-c3f-1e00-11ae-8db6-3931-13ec.ngrok-free.app/', { path: '/real-time' });
+    this.socket = io.connect('https://41f4-2800-484-c3f-1e00-2d18-69d8-7ff0-b903.ngrok-free.app/', { path: '/real-time' });
 
     // Cargar imágenes
     this.ballImg = this.p5.loadImage('img/balon.png');
@@ -155,6 +155,7 @@ setup() {
 
     // Pintar puntuación final
     if (this.isGameOver) {
+      if(this.score >= 6){
       this.p5.rectMode(this.p5.CORNER)
       this.p5.fill(0, 0, 0, 150);
       this.p5.rect(0, 0, this.p5.width,this.p5.height);
@@ -176,10 +177,37 @@ setup() {
         this.p5.height / 2 + 20,
       );
 
-      this.p5.fill (0, 0, 255);
+      this.p5.fill ('#006AB7');
       this.p5.text('Congratulations',295,400)
 
       this.p5.textAlign(this.p5.LEFT, this.p5.BASELINE);
+      }else{
+        this.p5.rectMode(this.p5.CORNER)
+      this.p5.fill(0, 0, 0, 150);
+      this.p5.rect(0, 0, this.p5.width,this.p5.height);
+
+      
+
+      this.p5.rectMode(this.p5.CENTER);
+      this.p5.fill(255, 255, 255);
+      this.p5.rect(300,320,345,282,10)
+      this.p5.image(this.logof,220,200)
+
+
+
+      this.p5.fill(0);
+      this.p5.textAlign(this.p5.CENTER, this.p5.CENTER);
+      this.p5.text(
+        'Your score was: ' + this.score,
+        this.p5.width / 2,
+        this.p5.height / 2 + 20,
+      );
+
+      this.p5.fill ('#D71E54');
+      this.p5.text('Try again',295,400)
+
+      this.p5.textAlign(this.p5.LEFT, this.p5.BASELINE);
+      }
     }
   }
 

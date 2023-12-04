@@ -6,7 +6,7 @@ export class MupiMainScreen {
       this.back;
       this.logo;
   
-      this.socket = io.connect('https://3c46-2800-484-c3f-1e00-11ae-8db6-3931-13ec.ngrok-free.app/', { path: '/real-time' });
+      this.socket = io.connect('https://41f4-2800-484-c3f-1e00-2d18-69d8-7ff0-b903.ngrok-free.app', { path: '/real-time' });
   
       // Cargar imágenes
       this.back2 = this.p5.loadImage('img/backfrontmupi.png');
